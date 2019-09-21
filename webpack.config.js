@@ -14,8 +14,6 @@ const webpack = require('webpack');
  *
  */
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 /*
  * We've enabled HtmlWebpackPlugin for you! This generates a html
  * page for you when you compile webpack, which will make you start
@@ -30,11 +28,9 @@ module.exports = {
 	entry: './src/index.ts',
 
 	output: {
-		filename: '[name].[chunkhash].js',
+		filename: 'main.js',
 		path: path.resolve(__dirname, 'dist')
 	},
-
-	plugins: [new webpack.ProgressPlugin(), new HtmlWebpackPlugin()],
 
 	module: {
 		rules: [
@@ -64,10 +60,15 @@ module.exports = {
 	},
 
 	devServer: {
-		open: true
+		open: true,
+		openPage: "index.html",
+		contentBase: path.join(__dirname, "dist"),
+		watchContentBase: true,
+		port: 8080
 	},
 
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js'],
+		modules: ["node_modules"]
 	}
 };
