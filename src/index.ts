@@ -21,25 +21,25 @@ window.addEventListener('DOMContentLoaded', () => {
   );
   camera.position.z = 3;
   camera.position.y = 1;
-  camera.rotation.x = -0.2;
 
-  const boxgeo = new THREE.BoxGeometry(1,1,1);
-  const boxmat = new THREE.MeshStandardMaterial({
-    color: 0xff0000
-  });
-  const boxmesh = new THREE.Mesh(boxgeo, boxmat);
-  scene.add(boxmesh);
-  boxmesh.scale.set(0.5,0.5,0.5);
+  const loader = new GLTFLoader();
+  loader.load(
+    '/models/shino.vrm',
+
+    (gltf) =>{
+      VRM.from(gltf).then( ( vrm ) => {
+        scene.add(vrm.scene);
+        vrm.scene.rotation.y = Math.PI;
+      }) 
+    }
+  )
 
   const light = new THREE.DirectionalLight(0xffffff);
   light.position.set(1,1,1).normalize();
   scene.add(light);
 
   const update = () => {
-    requestAnimationFrame(update);
-
-    boxmesh.rotation.y += 0.01;
-    
+    requestAnimationFrame(update);    
     renderer.render(scene, camera);
   }
   update();
